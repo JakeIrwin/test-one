@@ -1,0 +1,35 @@
+unit uCustomer;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TfrmCustomer = class(TForm)
+    EdtCustomerID: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    EdtCustomerAddress: TEdit;
+    EdtCustomerName: TEdit;
+    EdtCustomerContactNO: TEdit;
+    Label4: TLabel;
+    BtnAddCustomer: TButton;
+    BtnShowCustomerBookings: TButton;
+    BtnAmendCustomer: TButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCustomer: TfrmCustomer;
+
+implementation
+
+{$R *.dfm}
+
+end.

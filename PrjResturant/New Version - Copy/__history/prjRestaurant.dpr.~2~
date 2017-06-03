@@ -1,0 +1,25 @@
+program prjRestaurant;
+
+uses
+  Forms,
+  uLogin in 'uLogin.pas' {frmLogin},
+  uComponents in 'uComponents.pas',
+  uMainMenu in 'uMainMenu.pas' {frmMain},
+  uBooking in 'uBooking.pas' {frmBooking},
+  uStock in 'uStock.pas' {frmStock},
+  uCustomer in 'uCustomer.pas' {frmCustomer},
+  uTill in '..\rev2\uTill.pas' {FrmTill};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmBooking, frmBooking);
+  Application.CreateForm(TfrmStock, frmStock);
+  Application.CreateForm(TfrmCustomer, frmCustomer);
+  Application.CreateForm(TFrmTill, FrmTill);
+  Application.Run;
+end.

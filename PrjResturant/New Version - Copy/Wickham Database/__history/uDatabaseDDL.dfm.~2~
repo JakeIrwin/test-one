@@ -1,0 +1,105 @@
+object frmDatabase: TfrmDatabase
+  Left = 0
+  Top = 0
+  BorderIcons = [biMinimize, biMaximize]
+  BorderStyle = bsDialog
+  Caption = 'Wickham Wine Bar DB'
+  ClientHeight = 312
+  ClientWidth = 267
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnActivate = FormActivate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lblHeading: TLabel
+    Left = 8
+    Top = 8
+    Width = 243
+    Height = 108
+    Caption = 'Wickham wine bar database and tables creator '
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -29
+    Font.Name = 'Calibri'
+    Font.Style = []
+    ParentFont = False
+    WordWrap = True
+  end
+  object lblTablesMessage: TLabel
+    Left = 248
+    Top = 192
+    Width = 4
+    Height = 16
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object pnlExit: TPanel
+    Left = 187
+    Top = 270
+    Width = 65
+    Height = 25
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    Caption = 'Exit'
+    Color = clRed
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    OnClick = pnlExitClick
+  end
+  object btnCreateDatabase: TButton
+    Left = 25
+    Top = 138
+    Width = 217
+    Height = 48
+    Caption = 'Create Database'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    OnClick = btnCreateDatabaseClick
+  end
+  object btnCreateTables: TButton
+    Left = 25
+    Top = 200
+    Width = 217
+    Height = 50
+    Caption = 'Create Tables'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    Visible = False
+    OnClick = btnCreateTablesClick
+  end
+  object adoConDatabase: TADOConnection
+    LoginPrompt = False
+    Left = 40
+    Top = 256
+  end
+  object adoCommDatabase: TADOCommand
+    Parameters = <>
+    Left = 8
+    Top = 256
+  end
+end
