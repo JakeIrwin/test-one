@@ -1,0 +1,27 @@
+object frmLogin: TfrmLogin
+  Left = 0
+  Top = 0
+  Caption = 'Login Form'
+  ClientHeight = 416
+  ClientWidth = 706
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ADOTblWickhamBar: TADOConnection
+    ConnectionString = 
+      'Provider=Microsoft.ACE.OLEDB.15.0;Data Source=F:\computing\A2\Co' +
+      'ursework\technical solution\Wickham Database\Debug\Win32\wickham' +
+      'bar.accdb;Persist Security Info=False'
+    Provider = 'Microsoft.ACE.OLEDB.15.0'
+    Left = 608
+    Top = 40
+  end
+end

@@ -1,0 +1,253 @@
+unit uLogin;         //Main Form
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, DB, ADODB;
+
+const MAXLOGINS = 30;
+
+type
+  TLogins = record
+    loginName : string;
+    password : string;
+  end;
+
+type
+  TfrmLogin = class(TForm)
+    ADOTblWickhamBar: TADOConnection;
+    ADOCommand1: TADOCommand;
+    procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure exitForm(Sender:TObject);
+    procedure checkLogins(Sender:TObject);
+    procedure addLogins(Sender:TObject);
+    procedure changeLogins(Sender:TObject);
+  end;
+var
+  frmLogin: TfrmLogin;
+  edtLogin, edtPassword : TEdit;
+  lblLogin, lblPassword, lblHeading : TLabel;
+  btnLogin, btnNewLogin, btnChange, btnExit : TButton;
+  loginFile : TextFile;
+  arrayLogins : array [1..MAXLOGINS] of TLogins;
+
+implementation
+
+uses uComponents{, uChangeLogin, MainMenu}, uMainMenu;
+
+{$R *.dfm}
+
+procedure openFile;
+begin
+  assignFile(loginFile, 'logins.txt');
+  reset(loginFile);
+end;
+
+procedure TfrmLogin.addLogins(Sender:TObject);
+var i : integer;
+begin
+  i := 1;
+  while arrayLogins[i].loginName <> '' do
+    i := i + 1;
+  arrayLogins[i].loginName := edtLogin.Text;
+  arrayLogins[i].password := edtPassword.Text;
+end;
+
+procedure TfrmLogin.checkLogins(Sender:TObject);
+var i : integer;
+    isValid, isBlank : Boolean;
+begin
+  isValid := false;
+  isBlank := false;
+  if (edtLogin.Text = '') OR (edtPassword.Text = '') then
+    begin
+      ShowMessage('Please enter a username and password.');
+      isBlank := true;
+    end
+  else
+    begin
+      for i := 1 to MAXLOGINS do
+        begin
+          if (edtLogin.Text = arrayLogins[i].loginName) AND (edtPassword.Text = arrayLogins[i].password) then
+            begin
+              ShowMessage('Login success');
+              isValid := true;
+              if isvalid=true then
+           {   begin
+                  ADOTblWickhamBar.ConnectionString := 'Provider=Microsoft.ACE.OLEDB.12.0;Data Source='+
+                  ' F:\computing\A2\Coursework\technical solution\Wickham Database\Debug\Win32\WickhamBar.accdb';
+  ADOTblWickhamBar.LoginPrompt := false;
+  ADOTblWickhamBar.Connected := true;
+              end; }
+            end;
+        end;
+    end;
+       begin
+  if isvalid=true then
+    edtLogin.Clear;
+    edtPassword.Clear;
+    FrmMain.show;
+    frmlogin.hide;
+            end;
+  if not isValid AND not isBlank then
+    ShowMessage('Invalid login details');
+    edtLogin.Clear;
+    edtPassword.Clear;
+end;
+
+procedure TfrmLogin.changeLogins(Sender:TObject);
+var isValid, isBlank : Boolean;
+    i, position : integer;
+begin
+  isValid := false;
+  isBlank := false;
+  position := 0;
+  if (edtLogin.Text = '') OR (edtPassword.Text = '') then
+    begin
+      ShowMessage('Please enter details in both boxes');
+      isBlank := true;
+      edtLogin.SetFocus;
+      edtLogin.Clear;
+      edtPassword.Clear;
+    end
+  else
+    begin
+      for i := 1 to MAXLOGINS do
+        begin
+          if (edtLogin.Text = arrayLogins[i].loginName) AND (edtPassword.Text = arrayLogins[i].password) then
+            begin
+              position := i;
+              isValid := true;
+            end;
+        end;
+    end;
+  if not isValid AND not isBlank then
+    ShowMessage('Invalid login details');
+  if isValid then
+    begin
+     { frmChangeLogin.Visible := true;
+      frmChangeLogin.lblLoginName.Caption := edtLogin.Text;
+      uChangeLogin.location := position;}
+      frmLogin.Visible := false;
+    end;
+  edtLogin.Clear;
+  edtPassword.Clear;
+end;
+
+procedure TfrmLogin.exitForm(Sender:TObject);
+var i : integer;
+begin
+  edtLogin.Free;
+  edtPassword.Free;
+  lblLogin.Free;
+  lblPassword.Free;
+  lblHeading.Free;
+  btnLogin.Free;
+  btnNewLogin.Free;
+  btnChange.Free;
+  btnExit.Free;
+  assignFile(loginFile, 'logins.txt');
+  rewrite(loginFile);
+  i := 1;
+  while arrayLogins[i].loginName <> '' do
+    begin
+      writeln(loginFile,arrayLogins[i].loginName);
+      writeln(loginFile,arrayLogins[i].password);
+      i := i + 1;
+    end;
+  closeFile(loginfile);
+  application.Terminate;
+end;
+
+procedure TfrmLogin.FormActivate(Sender: TObject);
+begin
+    ADOTblWickhamBar.ConnectionString := 'Provider=Microsoft.ACE.OLEDB.12.0;Data Source='+
+    'wickhambar.accdb';
+    //' F:\computing\A2\Coursework\technical solution\Wickham Database\Debug\Win32\WickhamBar.accdb';
+    ADOTblWickhamBar.LoginPrompt := false;
+    ADOTblWickhamBar.Connected := true;
+end;
+
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+var i : integer;
+begin
+  //Dynamically create two edit boxes
+  edtLogin := TEdit.Create(nil);
+  edtLogin.Parent := self;
+  edtPassword := TEdit.Create(nil);
+  edtPassword.Parent := self;
+
+  //Dynamically create three labels
+  lblLogin := TLabel.Create(nil);
+  lblLogin.Parent := self;
+  lblPassword := TLabel.Create(nil);
+  lblPassword.Parent := self;
+  lblHeading := TLabel.Create(nil);
+  lblHeading.Parent := self;
+
+  //Dynamically create four buttons
+  btnLogin := TButton.Create(nil);
+  btnLogin.Parent := self;
+  btnExit := TButton.Create(nil);
+  btnExit.Parent := self;
+  btnNewLogin := TButton.Create(nil);
+  btnNewLogin.Parent := self;
+  btnChange := TButton.Create(nil);
+  btnChange.Parent := self;
+
+  //Setup labels
+  LabelsSetUp(lblLogin,150,'Login Name');
+  LabelsSetUp(lblPassword,200,'Password');
+  headingSetUp(lblHeading);
+
+  //Setup edit boxes
+  EditBoxSetUp(edtLogin,150);
+  EditBoxSetUp(edtPassword,200);
+
+  //Setup buttons
+  ButtonsSetUp(btnLogin,250,170,'Login');
+  ButtonsSetUp(btnNewLogin,250,300,'New User');
+  ButtonsSetUp(btnChange,250,430,'Change Password');
+  ButtonsSetUp(btnExit,330,540,'EXIT application');
+
+  for i := 1 to MAXLOGINS do
+    begin
+      arrayLogins[i].loginName := '';
+      arrayLogins[i].password := '';
+    end;
+
+  //Create text file if it doesn't already exist
+  if not FileExists('logins.txt') then
+    begin
+      assignFile(loginFile, 'logins.txt');
+      rewrite(loginFile);
+      closeFile(loginfile);
+    end
+  else           //If file exists read all the records into the array of logins.
+    begin
+      i := 0;
+      openFile;
+      while not EOF(loginFile) do
+        begin
+          i := i + 1;
+          readln(loginFile,arrayLogins[i].loginName);
+          readln(loginFile,arrayLogins[i].password);
+        end;
+      closeFile(loginFile);
+    end;
+
+  //Define OnClick events for buttons
+  btnExit.OnClick := exitForm;
+  btnLogin.OnClick := checkLogins;
+  btnNewLogin.OnClick := addLogins;
+  btnChange.OnClick := changeLogins;
+end;
+
+end.

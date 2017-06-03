@@ -1,0 +1,85 @@
+unit uCustomer;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, adodb, StdCtrls, DB;
+
+type
+  TfrmCustomer = class(TForm)
+    EdtCustomerID: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    EdtCustomerAddress: TEdit;
+    EdtCustomerName: TEdit;
+    EdtCustomerContactNO: TEdit;
+    Label4: TLabel;
+    BtnAddCustomer: TButton;
+    BtnShowCustomerBookings: TButton;
+    BtnAmendCustomer: TButton;
+    ADOTblCustomer: TADOTable;
+    BtnExit: TButton;
+    BtnRandomID: TButton;
+    procedure BtnAddCustomerClick(Sender: TObject);
+    procedure BtnExitClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure BtnRandomIDClick(Sender: TObject);
+    //procedure ValidateCustomer (sender:tobject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCustomer: TfrmCustomer;
+
+implementation
+uses umainmenu, ulogin;
+{$R *.dfm}
+
+procedure TfrmCustomer.BtnAddCustomerClick(Sender: TObject);
+begin
+      if ADOtblCustomer.Locate('CustomerID', EdtCustomerID.text,[]) then
+      ShowMessage('This customerID already exists, please choose another.')
+  else
+  //  if EdtcustomerID.Text=
+
+    begin
+      ADOtblCustomer.Append;
+      ADOtblCustomer ['CustomerID'] := edtCustomerID.Text;
+      ADOtblCustomer ['Name'] := edtCustomerName.Text;
+      ADOtblCustomer ['Address'] := edtCustomerAddress.Text;
+      ADOtblCustomer ['ContactNumber'] := edtCustomerAddress.Text;
+      ADOtblCustomer.Post;
+      ADOtblCustomer.Refresh;
+    end;
+  edtCustomerID.SetFocus;
+end;
+
+procedure TfrmCustomer.BtnExitClick(Sender: TObject);
+begin
+frmcustomer.Hide;
+FrmMain.show;
+end;
+
+procedure TfrmCustomer.BtnRandomIDClick(Sender: TObject);
+var
+int: integer;
+str: string;
+begin
+int:= random(9999);
+str:= IntToStr(int);
+EdtCustomerID.Text:=str;
+end;
+
+procedure TfrmCustomer.FormActivate(Sender: TObject);
+begin
+ ADOtblCustomer.Connection := frmlogin.adotblwickhambar;
+  ADOtblCustomer.TableName := 'tblCustomer';
+  ADOtblCustomer.Active := true;
+end;
+
+end.
